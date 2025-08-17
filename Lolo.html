@@ -1,0 +1,97 @@
+<!doctype html>
+
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎵 فيديو مفاجأة</title>
+  <meta name="description" content="موقع بسيط يعرض فيديو Rickroll.">
+  <style>
+    :root { --bg1:#0f172a; --bg2:#1e293b; --fg:#e2e8f0; --accent:#22d3ee; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 50% 20%, var(--bg2), var(--bg1));
+      color: var(--fg);
+      display: grid;
+      place-items: center;
+    }
+    .card {
+      width: min(960px, 92vw);
+      padding: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+      text-align: center;
+    }
+    h1 { margin: 8px 0 12px; font-size: clamp(22px, 3.4vw, 34px); letter-spacing: 0.3px; }
+    p { margin: 0 0 18px; opacity: .85; }
+    button {
+      cursor: pointer;
+      padding: 14px 22px;
+      font-size: 16px;
+      border-radius: 14px;
+      border: 0;
+      color: #0b1020;
+      background: var(--accent);
+      transition: transform .08s ease, filter .2s ease;
+      box-shadow: 0 8px 20px rgba(34,211,238,.35);
+    }
+    button:active { transform: translateY(1px) scale(.99); }.player {
+  aspect-ratio: 16/9;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 28px rgba(0,0,0,.4);
+}
+iframe { width: 100%; height: 100%; display: block; }
+.hidden { display: none; }
+.hint { font-size: 12px; opacity: .7; margin-top: 10px; }
+
+  </style>
+</head>
+<body>
+  <main class="card" id="card">
+    <h1>جاه تسمع أغنية أسطورية؟ 😏</h1>
+    <p>اضغط الزر بالأسفل لتشغيل الفيديو (قد يحتاج نقرة بسبب سياسات المتصفح).</p>
+    <button id="startBtn">تشغيل المفاجأة</button>
+    <div class="hint">تقدر كمان تضغط أي زر في الكيبورد.</div><div id="playerWrap" class="player hidden" aria-label="مشغّل الفيديو"></div>
+
+  </main>  <script>
+    const startBtn = document.getElementById('startBtn');
+    const playerWrap = document.getElementById('playerWrap');
+
+    function startRickroll() {
+      if (!playerWrap.classList.contains('hidden')) return;
+
+      // إظهار المشغّل
+      startBtn.style.display = 'none';
+      playerWrap.classList.remove('hidden');
+
+      // تضمين يوتيوب مع التشغيل التلقائي ميوت + تكرار
+      const videoId = 'dQw4w9WgXcQ';
+      const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&modestbranding=1&rel=0&playsinline=1`;
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = 'Rick Astley - Never Gonna Give You Up';
+      iframe.setAttribute('allow', 'autoplay; encrypted-media');
+      iframe.setAttribute('allowfullscreen', '');
+      playerWrap.appendChild(iframe);
+
+      // محاولة تكبير الشاشة للحصول على التأثير 😈
+      const root = document.documentElement;
+      const reqFS = root.requestFullscreen || root.webkitRequestFullscreen || root.msRequestFullscreen;
+      if (reqFS) {
+        reqFS.call(root).catch(() => {/* تجاهل الخطأ */});
+      }
+    }
+
+    startBtn.addEventListener('click', startRickroll);
+    document.addEventListener('keydown', startRickroll);
+    document.addEventListener('touchstart', startRickroll, { once: true });
+  </script></body>
+  </html>
